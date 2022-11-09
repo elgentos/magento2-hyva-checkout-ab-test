@@ -38,7 +38,7 @@
                 </field>
                 <field id="checkouts" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Checkouts</label>
-                    <frontend_model>Elgentos\HyvaCheckoutABTest\Block\Adminhtml\Form\Field\Checkout</frontend_model>
+                    <frontend_model>Elgentos\HyvaCheckoutABTest\Block\Adminhtml\Form\Field\Checkouts</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
             </group>
