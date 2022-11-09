@@ -1,0 +1,25 @@
+{
+  "name": "elgentos/magento2-hyva-checkout-ab-test",
+  "version": "1.0.0",
+  "description": "Set up an A/B test with different available Hyvä and Luma checkouts",
+  "type": "magento2-module",
+  "require": {
+    "php": "^8.1",
+    "magento/framework": "*",
+    "hyva-themes/checkout-core": "*"
+  },
+  "suggest": {
+    "degdigital/magento2-customreports": "Useful to check A/B test results in the Magento admin"
+  },
+  "license": [
+    "MIT"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Elgentos\\HyvaHyvaCheckoutABTest\\": ""
+    }
+  }
+}
