@@ -29,3 +29,7 @@ GROUP BY quote.active_checkout_namespace;
 ```
 
 If you want to see the results in the Magento admin, you can install [degdigital/magento2-customreports](https://github.com/degdigital/magento2-customreports) and add the above query. Be sure to leave out the SQL_MODE part (Magento does this for you) and leave no trailing/leading white lines.
+
+The report will look like this;
+
+![image](https://user-images.githubusercontent.com/431360/200922747-6be0d031-3156-40cd-a989-c8399d4daae3.png)
