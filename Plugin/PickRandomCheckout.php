@@ -52,7 +52,7 @@ class PickRandomCheckout
         }
 
         // When in developer mode, use the default configuration
-        if ($this->appState->getMode() !== State::MODE_DEVELOPER) {
+        if ($this->appState->getMode() === State::MODE_DEVELOPER) {
             return $result;
         }
 
