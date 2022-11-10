@@ -13,7 +13,9 @@ bin/magento set:up
 
 ## Configuration
 
-None, as of now.
+You can enable the extension under Stores > Configuration > Hyvä Themes > Checkout > A/B Test.
+
+![image](https://user-images.githubusercontent.com/431360/201086503-6c54b1e0-68bd-4ec2-ab6b-e85bb52854b5.png)
 
 ## Reports
 
