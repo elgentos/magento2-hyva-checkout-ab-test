@@ -12,7 +12,7 @@ use Magento\Framework\Serialize\SerializerInterface;
 
 class PickRandomCheckout
 {
-    public const HYVA_CHECKOUT_AB_TEST_ENABLED = 'hyva_themes_checkout/ab_test/enable';
+    public const HYVA_CHECKOUT_AB_TEST_ENABLED = 'hyva_themes_checkout/ab_test/enabled';
     public const HYVA_CHECKOUT_AB_TEST_CHECKOUTS = 'hyva_themes_checkout/ab_test/checkouts';
 
     public function __construct(
