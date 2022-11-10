@@ -1,6 +1,5 @@
 {
   "name": "elgentos/magento2-hyva-checkout-ab-test",
-  "version": "1.0.0",
   "description": "Set up an A/B test with different available Hyvä and Luma checkouts",
   "type": "magento2-module",
   "require": {
