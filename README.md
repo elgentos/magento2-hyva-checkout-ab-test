@@ -2,7 +2,7 @@
 
 This extension allows you to set up an A/B test with different available Hyvä and the Luma fallback checkout.
 
-It will randomly do a 50% split between the configured Hyva Checkout and the Luma fallback checkout.
+You can configure a specific split between multiple checkouts, like the configured Hyva Checkout and the Luma fallback checkout. Or between the Hyva Checkout onepage version and the Hyva Checkout multi-step version.
 
 ## Installation
 
