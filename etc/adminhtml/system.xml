@@ -8,13 +8,13 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="hyva_themes_checkout">
-            <group id="ab_test" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="ab_test" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>A/B Test</label>
-                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="checkouts" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="checkouts" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Checkouts</label>
                     <frontend_model>Elgentos\HyvaCheckoutABTest\Block\Adminhtml\Form\Field\Checkouts</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
