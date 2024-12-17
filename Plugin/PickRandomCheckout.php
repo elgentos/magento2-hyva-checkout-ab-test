@@ -3,8 +3,8 @@
 namespace Elgentos\HyvaCheckoutABTest\Plugin;
 
 use Exception;
-use Hyva\CheckoutCore\Model\CheckoutInformation\Luma;
-use Hyva\CheckoutCore\Model\Config;
+use Hyva\Checkout\Model\CheckoutInformation\Luma;
+use Hyva\Checkout\Model\Config;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\State;
