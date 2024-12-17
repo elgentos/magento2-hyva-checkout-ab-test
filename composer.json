@@ -5,7 +5,7 @@
   "require": {
     "php": "^8.1",
     "magento/framework": "*",
-    "hyva-themes/checkout-core": "*"
+    "hyva-themes/magento2-hyva-checkout": "*"
   },
   "suggest": {
     "degdigital/magento2-customreports": "Useful to check A/B test results in the Magento admin"

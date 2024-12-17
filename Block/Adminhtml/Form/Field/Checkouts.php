@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Elgentos\HyvaCheckoutABTest\Block\Adminhtml\Form\Field;
 
-use Hyva\CheckoutCore\Block\Adminhtml\Element\FieldArray\TypeRenderer;
+use Hyva\Checkout\Block\Adminhtml\Element\FieldArray\TypeRenderer;
 use Magento\Backend\Block\Template\Context;
 use \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
@@ -12,12 +12,12 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
 class Checkouts extends AbstractFieldArray
 {
     private \Magento\Framework\View\Element\BlockFactory $blockFactory;
-    private \Hyva\CheckoutCore\Model\Config\Source\Checkout $checkoutSource;
+    private \Hyva\Checkout\Model\Config\Source\Checkout $checkoutSource;
 
     public function __construct(
         Context $context,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
-        \Hyva\CheckoutCore\Model\Config\Source\Checkout $checkoutSource,
+        \Hyva\Checkout\Model\Config\Source\Checkout $checkoutSource,
         array $data = [],
         ?SecureHtmlRenderer $secureRenderer = null
     ) {
