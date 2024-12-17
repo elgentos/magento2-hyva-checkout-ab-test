@@ -7,6 +7,7 @@ use Hyva\Checkout\Model\CheckoutInformation\Luma;
 use Hyva\Checkout\Model\Config;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\App\State;
 use Magento\Framework\Serialize\SerializerInterface;
 
@@ -36,12 +37,12 @@ class PickRandomCheckout
         string $result
     ): string {
         // When the AB test is disabled, use the default configuration
-        if (!$this->config->getValue(self::HYVA_CHECKOUT_AB_TEST_ENABLED)) {
+        if (!$this->config->getValue(self::HYVA_CHECKOUT_AB_TEST_ENABLED, ScopeInterface::SCOPE_STORE)) {
             return $result;
         }
 
         try {
-            $checkouts = $this->serializer->unserialize($this->config->getValue(self::HYVA_CHECKOUT_AB_TEST_CHECKOUTS));
+            $checkouts = $this->serializer->unserialize($this->config->getValue(self::HYVA_CHECKOUT_AB_TEST_CHECKOUTS, ScopeInterface::SCOPE_STORE));
         } catch (Exception $e) {
             $checkouts = [];
         }
