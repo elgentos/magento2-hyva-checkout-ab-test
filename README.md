@@ -17,6 +17,14 @@ You can enable the extension under Stores > Configuration > Hyvä Themes > Check
 
 ![image](https://user-images.githubusercontent.com/431360/201086503-6c54b1e0-68bd-4ec2-ab6b-e85bb52854b5.png)
 
+## Usage
+
+The module will switch the checkout first by using the randomizer selecting between the options that are configured.
+
+If your magento instaltion is in development mode you it will allways select the default set checkout set in `hyva_themes_checkout/general/checkout`.
+When you then add the query parameter `active_checkout_namespace` in the url you can switch manually between checkouts.
+So for instance you can use `http://store.test/checkout?active_checkout_namespace=hyva`.
+
 ## Reports
 
 You can check the progress of the A/B test by running this query;
