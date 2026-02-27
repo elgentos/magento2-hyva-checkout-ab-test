@@ -16,6 +16,7 @@ class PickRandomCheckout
 {
     public const HYVA_CHECKOUT_AB_TEST_ENABLED = 'hyva_themes_checkout/ab_test/enabled';
     public const HYVA_CHECKOUT_AB_TEST_CHECKOUTS = 'hyva_themes_checkout/ab_test/checkouts';
+    public const HYVA_CHECKOUT_AB_TEST_ALLOW_URL_PARAM_OVERRIDE = 'hyva_themes_checkout/ab_test/allow_url_param_override';
 
     public function __construct(
         private readonly CheckoutSession $checkoutSession,
@@ -54,12 +55,16 @@ class PickRandomCheckout
             return $result;
         }
 
+        // Check if URL parameter override is explicitly enabled in config (highest priority)
+        if ($this->config->getValue(self::HYVA_CHECKOUT_AB_TEST_ALLOW_URL_PARAM_OVERRIDE, ScopeInterface::SCOPE_STORE)) {
+            $paramCheckout = $this->request->getParam('active_checkout_namespace');
+            if ($paramCheckout && $this->isValidCheckout($paramCheckout, $checkouts)) {
+                return $paramCheckout;
+            }
+        }
+
         // When in developer mode, use the default configuration
         if ($this->appState->getMode() === State::MODE_DEVELOPER) {
-            if ($this->request->getParam('active_checkout_namespace')) {
-                return $this->request->getParam('active_checkout_namespace');
-            }
-
             return $result;
         }
 
@@ -95,5 +100,19 @@ class PickRandomCheckout
             }
         }
         return $temp[array_rand($temp)];
+    }
+
+    /**
+     * Validate that the requested checkout namespace is in the configured checkouts
+     *
+     * @param string $checkoutNamespace
+     * @param array $checkouts
+     *
+     * @return bool
+     */
+    private function isValidCheckout(string $checkoutNamespace, array $checkouts): bool
+    {
+        $validCheckouts = array_column($checkouts, 'checkout');
+        return in_array($checkoutNamespace, $validCheckouts, true);
     }
 }
