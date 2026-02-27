@@ -55,15 +55,20 @@ class PickRandomCheckout
             return $result;
         }
 
-        // Check if URL parameter override is explicitly enabled in config (highest priority)
-        if ($this->config->getValue(self::HYVA_CHECKOUT_AB_TEST_ALLOW_URL_PARAM_OVERRIDE, ScopeInterface::SCOPE_STORE)) {
+        // Check if URL parameter override is allowed:
+        // - Always in developer mode
+        // - In production only if explicitly enabled in config
+        $allowUrlParamOverride = ($this->appState->getMode() === State::MODE_DEVELOPER)
+            || $this->config->getValue(self::HYVA_CHECKOUT_AB_TEST_ALLOW_URL_PARAM_OVERRIDE, ScopeInterface::SCOPE_STORE);
+
+        if ($allowUrlParamOverride) {
             $paramCheckout = $this->request->getParam('active_checkout_namespace');
             if ($paramCheckout && $this->isValidCheckout($paramCheckout, $checkouts)) {
                 return $paramCheckout;
             }
         }
 
-        // When in developer mode, use the default configuration
+        // When in developer mode and no valid URL parameter was provided, use the default configuration
         if ($this->appState->getMode() === State::MODE_DEVELOPER) {
             return $result;
         }
