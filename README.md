@@ -19,11 +19,30 @@ You can enable the extension under Stores > Configuration > Hyvä Themes > Check
 
 ## Usage
 
-The module will switch the checkout first by using the randomizer selecting between the options that are configured.
+### Checkout Selection
 
-If your magento instaltion is in development mode you it will allways select the default set checkout set in `hyva_themes_checkout/general/checkout`.
-When you then add the query parameter `active_checkout_namespace` in the url you can switch manually between checkouts.
-So for instance you can use `http://store.test/checkout?active_checkout_namespace=hyva`.
+The module determines which checkout to use based on the following priority:
+
+1. **URL Parameter Override** (if allowed)
+   - In **development mode**: The `active_checkout_namespace` URL parameter can always be used to manually select a checkout
+   - In **production mode**: The parameter can only be used if "Allow URL Parameter Override" is enabled in configuration
+
+2. **Developer Mode**: If no URL parameter is provided, development mode always uses the default checkout configured in `hyva_themes_checkout/general/checkout`
+
+3. **Random Assignment**: In production mode (without URL override), customers are randomly assigned to configured checkouts based on their percentage split
+
+### Manual Checkout Selection via URL
+
+You can manually override the checkout selection by adding the `active_checkout_namespace` query parameter:
+
+```
+http://store.test/checkout?active_checkout_namespace=hyva
+http://store.test/checkout?active_checkout_namespace=luma
+```
+
+**In Development Mode:** This parameter always works and overrides the default checkout selection.
+
+**In Production Mode:** This parameter only works if "Allow URL Parameter Override" is enabled under Stores > Configuration > Hyvä Themes > Checkout > A/B Test.
 
 ## Reports
 

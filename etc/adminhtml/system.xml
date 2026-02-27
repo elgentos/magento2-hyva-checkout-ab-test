@@ -19,6 +19,11 @@
                     <frontend_model>Elgentos\HyvaCheckoutABTest\Block\Adminhtml\Form\Field\Checkouts</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
+                <field id="allow_url_param_override" translate="label,comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow URL Parameter Override</label>
+                    <comment>When enabled, the active_checkout_namespace URL parameter can be used to override the A/B test selection on any environment</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>
