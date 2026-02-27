@@ -7,6 +7,7 @@ use Hyva\Checkout\Model\CheckoutInformation\Luma;
 use Hyva\Checkout\Model\Config;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\App\State;
 use Magento\Framework\Serialize\SerializerInterface;
@@ -20,7 +21,8 @@ class PickRandomCheckout
         private readonly CheckoutSession $checkoutSession,
         private readonly State $appState,
         private readonly ScopeConfigInterface $config,
-        private readonly SerializerInterface $serializer
+        private readonly SerializerInterface $serializer,
+        private readonly RequestInterface $request,
     ) {
 
     }
@@ -54,6 +56,10 @@ class PickRandomCheckout
 
         // When in developer mode, use the default configuration
         if ($this->appState->getMode() === State::MODE_DEVELOPER) {
+            if ($this->request->getParam('active_checkout_namespace')) {
+                return $this->request->getParam('active_checkout_namespace');
+            }
+
             return $result;
         }
 
