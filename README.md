@@ -26,10 +26,20 @@ The module determines which checkout to use based on the following priority:
 1. **URL Parameter Override** (if allowed)
    - In **development mode**: The `active_checkout_namespace` URL parameter can always be used to manually select a checkout
    - In **production mode**: The parameter can only be used if "Allow URL Parameter Override" is enabled in configuration
+   - Only checkouts with a percentage above 0 can be selected; the selection is kept for the rest of the session
 
-2. **Developer Mode**: If no URL parameter is provided, development mode always uses the default checkout configured in `hyva_themes_checkout/general/checkout`
+2. **Session Assignment**: A visitor keeps the checkout assigned earlier in the session, as long as that checkout still has a percentage above 0. A checkout that is removed or set to 0% no longer takes part: its visitors are assigned again on their next request
 
-3. **Random Assignment**: In production mode (without URL override), customers are randomly assigned to configured checkouts based on their percentage split
+3. **Developer Mode**: If no URL parameter is provided, development mode uses the default checkout configured in `hyva_themes_checkout/general/checkout`, unless "Run in Developer Mode" is enabled; then visitors are assigned a checkout like in production
+
+4. **Random Assignment**: In production mode (without URL override), customers are randomly assigned to configured checkouts based on their percentage split
+
+The assigned checkout is stored on the checkout session, on the quote and, when the order is placed, on the order (shown on the order view and available as a column in the order grid).
+
+### Ending the test or a variant
+
+- Set a checkout to 0% to stop showing it; visitors assigned to it switch to one of the remaining checkouts on their next request
+- Disable the A/B test to show the default checkout to everyone; orders placed while the test is disabled do not get a checkout namespace
 
 ### Manual Checkout Selection via URL
 

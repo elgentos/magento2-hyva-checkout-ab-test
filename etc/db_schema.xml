@@ -3,4 +3,10 @@
     <table name="quote">
         <column name="active_checkout_namespace" nullable="true" xsi:type="varchar" comment="Active Checkout Namespace" length="255"/>
     </table>
+    <table name="sales_order">
+        <column name="active_checkout_namespace" nullable="true" xsi:type="varchar" comment="Active Checkout Namespace" length="255"/>
+    </table>
+    <table name="sales_order_grid">
+        <column name="active_checkout_namespace" nullable="true" xsi:type="varchar" comment="Active Checkout Namespace" length="255"/>
+    </table>
 </schema>
