@@ -64,6 +64,8 @@ class PickRandomCheckout
         if ($allowUrlParamOverride) {
             $paramCheckout = $this->request->getParam('active_checkout_namespace');
             if ($paramCheckout && $this->isValidCheckout($paramCheckout, $checkouts)) {
+                $this->checkoutSession->setData('active_checkout_namespace', $paramCheckout);
+                $this->checkoutSession->getQuote()->setData('active_checkout_namespace', $paramCheckout)->save();
                 return $paramCheckout;
             }
         }
@@ -76,6 +78,12 @@ class PickRandomCheckout
         // Retrieve the active checkout from the session, if present
         $activeCheckoutNamespace = $this->checkoutSession->getData('active_checkout_namespace');
         if ($activeCheckoutNamespace) {
+            // Make sure the namespace is also persisted on the current quote; the quote
+            // may have been created after the namespace was assigned to the session
+            $quote = $this->checkoutSession->getQuote();
+            if ($quote->getData('active_checkout_namespace') !== $activeCheckoutNamespace) {
+                $quote->setData('active_checkout_namespace', $activeCheckoutNamespace)->save();
+            }
             return $activeCheckoutNamespace;
         }
 

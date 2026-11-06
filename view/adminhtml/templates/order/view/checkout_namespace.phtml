@@ -1,0 +1,13 @@
+<?php
+
+/** @var \Elgentos\HyvaCheckoutABTest\Block\Adminhtml\Order\View\CheckoutNamespace $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<section class="admin__page-section order-checkout-namespace">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $escaper->escapeHtml(__('Checkout Namespace')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <strong><?= $escaper->escapeHtml($block->getCheckoutNamespace()) ?></strong>
+    </div>
+</section>

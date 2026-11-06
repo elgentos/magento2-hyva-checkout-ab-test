@@ -1,0 +1,17 @@
+{
+    "quote": {
+        "column": {
+            "active_checkout_namespace": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "active_checkout_namespace": true
+        }
+    },
+    "sales_order_grid": {
+        "column": {
+            "active_checkout_namespace": true
+        }
+    }
+}
