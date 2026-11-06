@@ -27,7 +27,7 @@ The module determines which checkout to use based on the following priority:
    - In **development mode**: The `active_checkout_namespace` URL parameter can always be used to manually select a checkout
    - In **production mode**: The parameter can only be used if "Allow URL Parameter Override" is enabled in configuration
 
-2. **Developer Mode**: If no URL parameter is provided, development mode always uses the default checkout configured in `hyva_themes_checkout/general/checkout`
+2. **Developer Mode**: If no URL parameter is provided, development mode uses the default checkout configured in `hyva_themes_checkout/general/checkout`, unless "Run in Developer Mode" is enabled; then visitors are assigned a checkout like in production
 
 3. **Random Assignment**: In production mode (without URL override), customers are randomly assigned to configured checkouts based on their percentage split
 

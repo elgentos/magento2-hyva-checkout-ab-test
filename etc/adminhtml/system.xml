@@ -24,6 +24,11 @@
                     <comment>When enabled, the active_checkout_namespace URL parameter can be used to override the A/B test selection on any environment</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="run_in_developer_mode" translate="label,comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Run in Developer Mode</label>
+                    <comment>When enabled, visitors are assigned a random checkout in developer mode as well, like in production. When disabled, developer mode always shows the default checkout.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>

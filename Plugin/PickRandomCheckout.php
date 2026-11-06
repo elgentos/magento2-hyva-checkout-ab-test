@@ -17,6 +17,7 @@ class PickRandomCheckout
     public const HYVA_CHECKOUT_AB_TEST_ENABLED = 'hyva_themes_checkout/ab_test/enabled';
     public const HYVA_CHECKOUT_AB_TEST_CHECKOUTS = 'hyva_themes_checkout/ab_test/checkouts';
     public const HYVA_CHECKOUT_AB_TEST_ALLOW_URL_PARAM_OVERRIDE = 'hyva_themes_checkout/ab_test/allow_url_param_override';
+    public const HYVA_CHECKOUT_AB_TEST_RUN_IN_DEVELOPER_MODE = 'hyva_themes_checkout/ab_test/run_in_developer_mode';
 
     public function __construct(
         private readonly CheckoutSession $checkoutSession,
@@ -70,8 +71,11 @@ class PickRandomCheckout
             }
         }
 
-        // When in developer mode and no valid URL parameter was provided, use the default configuration
-        if ($this->appState->getMode() === State::MODE_DEVELOPER) {
+        // When in developer mode and no valid URL parameter was provided, use the default configuration,
+        // unless the A/B test is configured to run in developer mode as well
+        if ($this->appState->getMode() === State::MODE_DEVELOPER
+            && !$this->config->isSetFlag(self::HYVA_CHECKOUT_AB_TEST_RUN_IN_DEVELOPER_MODE, ScopeInterface::SCOPE_STORE)
+        ) {
             return $result;
         }
 
