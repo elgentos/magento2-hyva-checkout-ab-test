@@ -51,8 +51,11 @@ class PickRandomCheckout
             $checkouts = [];
         }
 
-        // When no checkouts are configured, use the default configuration
-        if (count($checkouts) === 0) {
+        // Only checkouts with a percentage above zero take part in the test
+        $activeCheckouts = $this->getActiveCheckouts($checkouts);
+
+        // When no checkout takes part in the test, use the default configuration
+        if (count($activeCheckouts) === 0) {
             return $result;
         }
 
@@ -64,11 +67,16 @@ class PickRandomCheckout
 
         if ($allowUrlParamOverride) {
             $paramCheckout = $this->request->getParam('active_checkout_namespace');
-            if ($paramCheckout && $this->isValidCheckout($paramCheckout, $checkouts)) {
-                $this->checkoutSession->setData('active_checkout_namespace', $paramCheckout);
-                $this->checkoutSession->getQuote()->setData('active_checkout_namespace', $paramCheckout)->save();
-                return $paramCheckout;
+            if (is_string($paramCheckout) && in_array($paramCheckout, $activeCheckouts, true)) {
+                return $this->assign($paramCheckout);
             }
+        }
+
+        // Retrieve the active checkout from the session, if present. An assignment to a checkout that has
+        // since been removed or set to 0% is dropped, so the visitor is assigned again below
+        $activeCheckoutNamespace = $this->checkoutSession->getData('active_checkout_namespace');
+        if (is_string($activeCheckoutNamespace) && in_array($activeCheckoutNamespace, $activeCheckouts, true)) {
+            return $this->assign($activeCheckoutNamespace);
         }
 
         // When in developer mode and no valid URL parameter was provided, use the default configuration,
@@ -79,26 +87,49 @@ class PickRandomCheckout
             return $result;
         }
 
-        // Retrieve the active checkout from the session, if present
-        $activeCheckoutNamespace = $this->checkoutSession->getData('active_checkout_namespace');
-        if ($activeCheckoutNamespace) {
-            // Make sure the namespace is also persisted on the current quote; the quote
-            // may have been created after the namespace was assigned to the session
-            $quote = $this->checkoutSession->getQuote();
-            if ($quote->getData('active_checkout_namespace') !== $activeCheckoutNamespace) {
-                $quote->setData('active_checkout_namespace', $activeCheckoutNamespace)->save();
-            }
-            return $activeCheckoutNamespace;
+        // Pick a random result based on percentage given
+        return $this->assign($this->randomWithProbability($checkouts));
+    }
+
+    /**
+     * Save the checkout in the checkout session to make sure this session always has the same checkout,
+     * and on the current quote, which may have been created after the checkout was assigned to the session
+     *
+     * @param string $checkoutNamespace
+     *
+     * @return string
+     */
+    private function assign(string $checkoutNamespace): string
+    {
+        if ($this->checkoutSession->getData('active_checkout_namespace') !== $checkoutNamespace) {
+            $this->checkoutSession->setData('active_checkout_namespace', $checkoutNamespace);
         }
 
-        // Pick a random result based on percentage given
-        $result = $this->randomWithProbability($checkouts);
+        // Only a quote that already exists is updated; saving the empty quote of a visitor without a cart
+        // would create a new quote record on every request
+        $quote = $this->checkoutSession->getQuote();
+        if ($quote->getId() && $quote->getData('active_checkout_namespace') !== $checkoutNamespace) {
+            $quote->setData('active_checkout_namespace', $checkoutNamespace)->save();
+        }
 
-        // Save the randomly chosen checkout in the checkout session to make sure
-        // this session always has the same checkout
-        $this->checkoutSession->setData('active_checkout_namespace', $result);
-        $this->checkoutSession->getQuote()->setData('active_checkout_namespace', $result)->save();
-        return $result;
+        return $checkoutNamespace;
+    }
+
+    /**
+     * @param array $checkouts
+     *
+     * @return string[]
+     */
+    private function getActiveCheckouts(array $checkouts): array
+    {
+        $activeCheckouts = [];
+        foreach ($checkouts as $checkout) {
+            if ((int) ($checkout['percentage'] ?? 0) > 0 && !empty($checkout['checkout'])) {
+                $activeCheckouts[] = (string) $checkout['checkout'];
+            }
+        }
+
+        return $activeCheckouts;
     }
 
     /**
@@ -117,19 +148,5 @@ class PickRandomCheckout
             }
         }
         return $temp[array_rand($temp)];
-    }
-
-    /**
-     * Validate that the requested checkout namespace is in the configured checkouts
-     *
-     * @param string $checkoutNamespace
-     * @param array $checkouts
-     *
-     * @return bool
-     */
-    private function isValidCheckout(string $checkoutNamespace, array $checkouts): bool
-    {
-        $validCheckouts = array_column($checkouts, 'checkout');
-        return in_array($checkoutNamespace, $validCheckouts, true);
     }
 }
